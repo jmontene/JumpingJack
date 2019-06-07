@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
     public GameObject laneParent;
     public Transform rightSide;
     public Transform leftSide;
+    public Player player;
     public float holeSpeed = 2f;
 
     [Header("Pools")]
@@ -36,6 +37,7 @@ public class StageManager : MonoBehaviour
         BuildLaneArray();
 
         for(int i=0;i<InitialHoles;++i) SpawnHoleAtRandom();
+        player.Stage = this;
     }
 
     void Update()
