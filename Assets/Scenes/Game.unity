@@ -367,6 +367,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1153222126 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8878780939977023996, guid: 0369778aef9dfa54788366ce1bc92cda,
+    type: 3}
+  m_PrefabInstance: {fileID: 8878780940976530450}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1160573315 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7733545187292356394, guid: 0369778aef9dfa54788366ce1bc92cda,
@@ -446,6 +452,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: idleColor.r
+      value: 0.76470596
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: idleColor.g
+      value: 0.76470596
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: idleColor.b
+      value: 0.76470596
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: idleColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: hurtColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: hurtColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: backgroundRenderer
+      value: 
+      objectReference: {fileID: 1153222126}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: hurtColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878780940729509724, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: hurtColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 202954508971256193, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 6876494670799282111, guid: 0369778aef9dfa54788366ce1bc92cda,
         type: 3}
       propertyPath: rightSide
@@ -456,5 +512,10 @@ PrefabInstance:
       propertyPath: leftSide
       value: 
       objectReference: {fileID: 1335524112}
+    - target: {fileID: 6876494670799282111, guid: 0369778aef9dfa54788366ce1bc92cda,
+        type: 3}
+      propertyPath: holeLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0369778aef9dfa54788366ce1bc92cda, type: 3}

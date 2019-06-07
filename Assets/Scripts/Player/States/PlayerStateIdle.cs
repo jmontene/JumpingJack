@@ -16,5 +16,23 @@ public class PlayerStateIdle : PlayerState
         {
             ChangeState("WrapAround");
         }
+
+        if (Input.GetButtonDown("Vertical"))
+        {
+            OnJumpButtonPressed();
+        }
+    }
+
+    private void OnJumpButtonPressed()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Player.transform.position, Vector2.up, Player.jumpHeight, Player.holeLayer);
+        if (hit)
+        {
+            ChangeState("Jumping");
+        }
+        else
+        {
+            ChangeState("Crashing");
+        }
     }
 }

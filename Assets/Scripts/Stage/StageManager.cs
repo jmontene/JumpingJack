@@ -10,11 +10,17 @@ public class StageManager : MonoBehaviour
     public Transform rightSide;
     public Transform leftSide;
     public Player player;
-    public float holeSpeed = 2f;
 
-    [Header("Pools")]
+    [Header("Holes")]
 
     public Pool holePool;
+    public float holeSpeed = 2f;
+    public float successfulJumpMultiplier = 0.5f;
+
+    [Header("Background")]
+    public SpriteRenderer backgroundRenderer;
+    public Color idleColor;
+    public Color hurtColor;
 
     //Properties
     private int _initialHoles = 2;
@@ -23,12 +29,19 @@ public class StageManager : MonoBehaviour
         get { return _initialHoles; }
         set { _initialHoles = value; }
     }
+    private bool _updateActive = true;
+    public bool UpdateActive
+    {
+        get { return _updateActive; }
+        set { _updateActive = value; }
+    }
 
     //Private Members
 
     private Transform[] lanes;
     private List<Hole> holes;
     private List<Hole> holesToAdd;
+    private float speedMultiplier = 1f;
 
     void Awake()
     {
@@ -42,6 +55,8 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        if (!UpdateActive) return;
+
         foreach(Hole hole in holes)
         {
             UpdateHole(hole);
@@ -51,9 +66,39 @@ public class StageManager : MonoBehaviour
         holesToAdd.Clear();
     }
 
+    public void IdleColor()
+    {
+        ChangeBackgroundColor(idleColor);
+    }
+
+    public void HurtColor()
+    {
+        ChangeBackgroundColor(hurtColor);
+    }
+
+    public void SlowHoles()
+    {
+        speedMultiplier = successfulJumpMultiplier;
+    }
+
+    public void NormalSpeedHoles()
+    {
+        speedMultiplier = 1f;
+    }
+
+    public void OnSuccessfulJump()
+    {
+        SpawnHoleAtRandom();
+    }
+
+    private void ChangeBackgroundColor(Color c)
+    {
+        backgroundRenderer.color = c;
+    }
+
     private void UpdateHole(Hole hole)
     {
-        hole.transform.Translate(Vector2.right * hole.Direction * holeSpeed * Time.deltaTime);
+        hole.transform.Translate(Vector2.right * hole.Direction * holeSpeed * speedMultiplier * Time.deltaTime);
 
         bool touch = hole.Direction == 1 ? hole.rightEdge >= rightSide.position.x : hole.leftEdge <= leftSide.position.x;
         bool outFrame = hole.Direction == 1 ? hole.leftEdge >= rightSide.position.x : hole.rightEdge <= leftSide.position.x;
