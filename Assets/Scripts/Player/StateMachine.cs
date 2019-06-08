@@ -7,10 +7,18 @@ public class StateMachine : IStateMachine
     private Dictionary<string, IStateMachineState> states;
     private IStateMachineState currentState;
 
+    private string _currentStateName;
+    public string CurrentStateName
+    {
+        get { return _currentStateName; }
+        set { _currentStateName = value; }
+    }
+
     public StateMachine()
     {
         states = new Dictionary<string, IStateMachineState>();
         currentState = null;
+        CurrentStateName = "";
     }
 
     public void AddState(string key, IStateMachineState state)
@@ -29,6 +37,7 @@ public class StateMachine : IStateMachine
 
         if (currentState != null) currentState.OnExit();
         currentState = states[key];
+        CurrentStateName = key;
         currentState.OnEnter();
     }
 

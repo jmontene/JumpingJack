@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hole : MonoBehaviour
+public class StageObject : MonoBehaviour
 {
     public Transform rightSide;
     public Transform leftSide;

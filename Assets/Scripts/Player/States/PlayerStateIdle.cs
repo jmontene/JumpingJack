@@ -21,6 +21,16 @@ public class PlayerStateIdle : PlayerState
         {
             OnJumpButtonPressed();
         }
+
+        if (Player.CheckFloorHole())
+        {
+            ChangeState("Falling");
+        }
+
+        if (Player.CheckHazardCollision())
+        {
+            ChangeState("Hazard");
+        }
     }
 
     private void OnJumpButtonPressed()

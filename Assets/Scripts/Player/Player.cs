@@ -16,10 +16,13 @@ public class Player : MonoBehaviour
 
     [Header("Timing")]
     public float crashTime = 0.5f;
-    public float dizzyTime = 3f;
+    public float maxDizzyTime = 3f;
+    public float minDizzyTime = 1f;
 
     [Header("Collisions")]
     public LayerMask holeLayer;
+    public LayerMask hazardLayer;
+    public float skinHeight = 0.2f;
 
     private StageManager _stage;
     public StageManager Stage
@@ -35,7 +38,15 @@ public class Player : MonoBehaviour
         set { _dizzyTimer = value; }
     }
 
+    private float _dizzyTime;
+    public float DizzyTime
+    {
+        get { return _dizzyTime; }
+        set { _dizzyTime = value; }
+    }
+
     private StateMachine playerStateMachine;
+    private float floorDistance = 0.01f;
 
     // Start is called before the first frame update
     void Awake()
@@ -54,6 +65,24 @@ public class Player : MonoBehaviour
     public void RefreshDizzyTimer()
     {
         DizzyTimer = 0f;
+        DizzyTime = Random.Range(minDizzyTime, maxDizzyTime);
+    }
+
+    public bool CheckFloorHole()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, floorDistance, holeLayer);
+        return hit;
+    }
+
+    public bool CheckHazardCollision()
+    {
+        float right = rightSide.position.x;
+        float left = leftSide.position.x;
+        float center = transform.position.x;
+        RaycastHit2D rightHit = Physics2D.Raycast(transform.position + Vector3.up * skinHeight, Vector2.right, right - center, hazardLayer);
+        RaycastHit2D leftHit = Physics2D.Raycast(transform.position + Vector3.up * skinHeight, Vector2.left, center - left, hazardLayer);
+
+        return rightHit || leftHit;
     }
 
     private void InitializeStates()
@@ -64,5 +93,7 @@ public class Player : MonoBehaviour
         playerStateMachine.AddState("FallingCrash", new PlayerStateFallingCrash(this));
         playerStateMachine.AddState("Dizzy", new PlayerStateDizzy(this));
         playerStateMachine.AddState("Jumping", new PlayerStateJumping(this));
+        playerStateMachine.AddState("Falling", new PlayerStateFalling(this));
+        playerStateMachine.AddState("Hazard", new PlayerStateHazard(this));
     }
 }

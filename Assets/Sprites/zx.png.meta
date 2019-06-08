@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: -5115618752126089108
     second: player_idle_0
+  - first:
+      213: 2546578449821535880
+    second: zx_hazard_1_0
+  - first:
+      213: -9114567127934762824
+    second: zx_hazard_1_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -106,7 +112,7 @@ TextureImporter:
         width: 10
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -114,6 +120,48 @@ TextureImporter:
       bones: []
       spriteID: efb6162381094a84991bdfb97d964a36
       internalID: -5115618752126089108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_1_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 112
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e946b7709e069a4d9059a52b5cf63ee
+      internalID: 2546578449821535880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_1_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 112
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 291ea3d44f90ece438eb078d8707ac82
+      internalID: -9114567127934762824
       vertices: []
       indices: 
       edges: []

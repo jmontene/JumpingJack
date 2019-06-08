@@ -7,6 +7,7 @@ public class StageManager : MonoBehaviour
     [Header("Basic Configuration")]
 
     public GameObject laneParent;
+    public GameObject hazardParent;
     public Transform rightSide;
     public Transform leftSide;
     public Player player;
@@ -14,13 +15,19 @@ public class StageManager : MonoBehaviour
     [Header("Holes")]
 
     public Pool holePool;
+    public int maxHoles = 8;
     public float holeSpeed = 2f;
     public float successfulJumpMultiplier = 0.5f;
+
+    [Header("Hazards")]
+    public float hazardAnimSpeed = 0.1f;
+    public float hazardHitTime = 0.3f;
 
     [Header("Background")]
     public SpriteRenderer backgroundRenderer;
     public Color idleColor;
     public Color hurtColor;
+    public Color hazardColor;
 
     //Properties
     private int _initialHoles = 2;
@@ -39,28 +46,54 @@ public class StageManager : MonoBehaviour
     //Private Members
 
     private Transform[] lanes;
-    private List<Hole> holes;
-    private List<Hole> holesToAdd;
+    private List<StageObject> holes;
+    private List<StageObject> holesToAdd;
+    private List<Hazard> hazards;
     private float speedMultiplier = 1f;
+    private int curHoleNumber = 0;
+    private float hazardTimer = 0f;
 
     void Awake()
     {
-        holes = new List<Hole>();
-        holesToAdd = new List<Hole>();
+        holes = new List<StageObject>();
+        holesToAdd = new List<StageObject>();
+        hazards = new List<Hazard>();
         BuildLaneArray();
 
         for(int i=0;i<InitialHoles;++i) SpawnHoleAtRandom();
         player.Stage = this;
     }
 
+    private void Start()
+    {
+        foreach(Hazard hazard in GameManager.Instance.CurrentHazards)
+        {
+            SpawnHazard(hazard);
+        }
+    }
+
     void Update()
     {
         if (!UpdateActive) return;
 
-        foreach(Hole hole in holes)
+        foreach(StageObject hole in holes)
         {
             UpdateHole(hole);
         }
+
+        hazardTimer += Time.deltaTime;
+        bool switchAnim = false;
+        if(hazardTimer >= hazardAnimSpeed)
+        {
+            hazardTimer = 0f;
+            switchAnim = true;
+        }
+
+        foreach(Hazard h in hazards)
+        {
+            UpdateHazard(h, switchAnim);
+        }
+
         holes.RemoveAll(h => h.MarkedForRemoval);
         holes.AddRange(holesToAdd);
         holesToAdd.Clear();
@@ -74,6 +107,11 @@ public class StageManager : MonoBehaviour
     public void HurtColor()
     {
         ChangeBackgroundColor(hurtColor);
+    }
+
+    public void HazardColor()
+    {
+        ChangeBackgroundColor(hazardColor);
     }
 
     public void SlowHoles()
@@ -96,25 +134,47 @@ public class StageManager : MonoBehaviour
         backgroundRenderer.color = c;
     }
 
-    private void UpdateHole(Hole hole)
+    private void UpdateStageObject(StageObject obj)
     {
-        hole.transform.Translate(Vector2.right * hole.Direction * holeSpeed * speedMultiplier * Time.deltaTime);
+        obj.transform.Translate(Vector2.right * obj.Direction * holeSpeed * speedMultiplier * Time.deltaTime);
+    }
 
-        bool touch = hole.Direction == 1 ? hole.rightEdge >= rightSide.position.x : hole.leftEdge <= leftSide.position.x;
-        bool outFrame = hole.Direction == 1 ? hole.leftEdge >= rightSide.position.x : hole.rightEdge <= leftSide.position.x;
-
-        if(!hole.PartiallyOut && touch)
+    private void UpdateHazard(Hazard obj, bool switchSprite)
+    {
+        UpdateStageObject(obj);
+        if (switchSprite)
         {
-            hole.PartiallyOut = true;
-            int nextLane = hole.LaneIndex + (hole.Direction == 1 ? -1 : 1);
+            obj.SwapSprite();
+        }
+
+        bool outFrame = obj.rightEdge <= leftSide.position.x;
+        if (outFrame)
+        {
+            obj.LaneIndex = (obj.LaneIndex + 1) % (lanes.Length-1);
+            obj.transform.position = new Vector2(rightSide.position.x, lanes[obj.LaneIndex].position.y);
+        }
+    }
+
+    private void UpdateHole(StageObject obj)
+    {
+        UpdateStageObject(obj);
+        bool touch = obj.Direction == 1 ? obj.rightEdge >= rightSide.position.x : obj.leftEdge <= leftSide.position.x;
+        bool outFrame = obj.Direction == 1 ? obj.leftEdge >= rightSide.position.x : obj.rightEdge <= leftSide.position.x;
+
+        if (!obj.PartiallyOut && touch)
+        {
+            obj.PartiallyOut = true;
+            int nextLane = obj.LaneIndex + (obj.Direction == 1 ? -1 : 1);
             nextLane = nextLane >= 0 ? (nextLane % lanes.Length) : (lanes.Length - 1);
-            float offset = (hole.Direction == 1 ? hole.leftEdge - hole.centerX : hole.rightEdge - hole.centerX);
-            Transform side = (hole.Direction == 1 ? leftSide : rightSide);
-            SpawnMirrorHole(nextLane, offset, hole.Direction, side);
-        }else if (hole.PartiallyOut && outFrame)
+            float offset = (obj.Direction == 1 ? obj.leftEdge - obj.centerX : obj.rightEdge - obj.centerX);
+            Transform side = (obj.Direction == 1 ? leftSide : rightSide);
+            SpawnMirrorHole(nextLane, offset, obj.Direction, side);
+        }
+        else if (obj.PartiallyOut && outFrame)
         {
-            hole.MarkedForRemoval = true;
-            hole.GetComponent<PoolObject>().Deactivate();
+            obj.MarkedForRemoval = true;
+            curHoleNumber--;
+            obj.GetComponent<PoolObject>().Deactivate();
         }
     }
 
@@ -139,22 +199,46 @@ public class StageManager : MonoBehaviour
 
     private void SpawnHole(int laneIndex, float xPos, int dir = 0, bool clampPos = true, bool addToList = true)
     {
-        Hole hole = holePool.Get().GetComponent<Hole>();
-        hole.Init(dir, laneIndex);
+        if (curHoleNumber == maxHoles) return;
+        curHoleNumber++;
+
+        StageObject obj = SpawnStageObject(holePool, laneIndex, xPos, dir, clampPos);
+
+        if (addToList) holes.Add(obj);
+        else holesToAdd.Add(obj);
+    }
+
+    private void SpawnHazard(Hazard h)
+    {
+        int lane = Random.Range(0, lanes.Length-1);
+        float xPos = Random.Range(leftSide.position.x, rightSide.position.x);
+        Hazard obj = Instantiate<Hazard>(h, hazardParent.transform);
+        SpawnStageObject(obj, lane, xPos, -1);
+        hazards.Add(obj);
+    }
+
+    private StageObject SpawnStageObject(Pool pool, int laneIndex, float xPos, int dir = 0, bool clampPos = true)
+    {
+        StageObject obj = pool.Get().GetComponent<StageObject>();
+        return SpawnStageObject(obj, laneIndex, xPos, dir, clampPos);
+    }
+
+    private StageObject SpawnStageObject(StageObject obj, int laneIndex, float xPos, int dir = 0, bool clampPos = true)
+    {
+        obj.Init(dir, laneIndex);
 
         float left = leftSide.position.x;
         float right = rightSide.position.x;
 
         Transform lane = lanes[laneIndex];
-        hole.transform.position = new Vector2(xPos, lane.position.y);
+        obj.transform.position = new Vector2(xPos, lane.position.y);
 
         if (clampPos)
         {
-            if (hole.leftEdge < left) hole.transform.position = new Vector2(left + (hole.centerX - hole.leftEdge), hole.centerY);
-            else if (hole.rightEdge > right) hole.transform.position = new Vector2(right - (hole.rightEdge - hole.centerX), hole.centerY);
+            if (obj.leftEdge < left) obj.transform.position = new Vector2(left + (obj.centerX - obj.leftEdge), obj.centerY);
+            else if (obj.rightEdge > right) obj.transform.position = new Vector2(right - (obj.rightEdge - obj.centerX), obj.centerY);
         }
 
-        if (addToList) holes.Add(hole);
-        else holesToAdd.Add(hole);
+        return obj;
     }
 }

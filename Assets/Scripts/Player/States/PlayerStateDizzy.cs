@@ -9,9 +9,13 @@ public class PlayerStateDizzy : PlayerState
     public override void OnUpdate()
     {
         Player.DizzyTimer += Time.deltaTime;
-        if(Player.DizzyTimer >= Player.dizzyTime)
+        if(Player.DizzyTimer >= Player.DizzyTime)
         {
             ChangeState("Idle");
+        }
+        if (Player.CheckFloorHole())
+        {
+            ChangeState("Falling");
         }
     }
 }
