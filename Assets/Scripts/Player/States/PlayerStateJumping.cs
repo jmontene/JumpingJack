@@ -17,11 +17,21 @@ public class PlayerStateJumping : PlayerState
     public override void OnUpdate()
     {
         Player.transform.Translate(Vector2.up * Player.jumpSpeed * Time.deltaTime);
-        if(Player.transform.position.y >= targetY)
+        if (Player.transform.position.y >= targetY)
         {
             Player.transform.position = new Vector2(Player.transform.position.x, targetY);
             Player.Stage.OnSuccessfulJump();
-            ChangeState("Idle");
+
+            Player.Lane += 1;
+            if (Player.Lane == Player.Stage.NumOfLanes - 1)
+            {
+                Player.Stage.OnWin();
+                ChangeState("GameOver");
+            }
+            else
+            {
+                ChangeState("Idle");
+            }
         }
     }
 

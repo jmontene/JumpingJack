@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
@@ -29,6 +31,14 @@ public class StageManager : MonoBehaviour
     public Color hurtColor;
     public Color hazardColor;
 
+    [Header("UI")]
+    public Text scoreText;
+    public Text highScoreText;
+    public List<Image> lives;
+
+    [Header("Transitions")]
+    public float nextLevelWaitTime = 1f;
+
     //Properties
     private int _initialHoles = 2;
     public int InitialHoles
@@ -41,6 +51,12 @@ public class StageManager : MonoBehaviour
     {
         get { return _updateActive; }
         set { _updateActive = value; }
+    }
+    private int _numOfLanes;
+    public int NumOfLanes
+    {
+        get { return _numOfLanes; }
+        set { _numOfLanes = value; }
     }
 
     //Private Members
@@ -59,9 +75,12 @@ public class StageManager : MonoBehaviour
         holesToAdd = new List<StageObject>();
         hazards = new List<Hazard>();
         BuildLaneArray();
+        NumOfLanes = lanes.Length;
 
         for(int i=0;i<InitialHoles;++i) SpawnHoleAtRandom();
         player.Stage = this;
+
+        UpdateLives();
     }
 
     private void Start()
@@ -70,6 +89,8 @@ public class StageManager : MonoBehaviour
         {
             SpawnHazard(hazard);
         }
+        UpdateScoreText("HI", highScoreText, GameManager.Instance.HighScore);
+        UpdateRegularScoreText();
     }
 
     void Update()
@@ -127,6 +148,55 @@ public class StageManager : MonoBehaviour
     public void OnSuccessfulJump()
     {
         SpawnHoleAtRandom();
+        GameManager.Instance.Score += GameManager.Instance.ScorePerJump;
+        UpdateRegularScoreText();
+    }
+
+    public void OnWin()
+    {
+        UpdateActive = false;
+        StartCoroutine(GoToNextLevel("NextLevel"));
+    }
+
+    IEnumerator GoToNextLevel(string levelName)
+    {
+        yield return new WaitForSeconds(nextLevelWaitTime);
+        SceneManager.LoadScene(levelName);
+    }
+
+    public void OnLoseLife()
+    {
+        GameManager.Instance.LoseLife();
+        UpdateLives();
+    }
+
+    public void OnGameOver()
+    {
+        UpdateActive = false;
+        StartCoroutine(GoToNextLevel("GameOver"));
+    }
+
+    public void UpdateLives()
+    {
+        for(int i = 0; i < GameManager.Instance.Lives;++i)
+        {
+            lives[i].enabled = true;
+        }
+
+        for(int i=GameManager.Instance.Lives; i < lives.Count; ++i)
+        {
+            lives[i].enabled = false;
+        }
+    }
+
+    public void UpdateScoreText(string prefix, Text t, int score)
+    {
+        t.text = prefix + score.ToString("D5");
+    }
+
+    public void UpdateRegularScoreText()
+    {
+        UpdateScoreText("SC", scoreText, GameManager.Instance.Score);
     }
 
     private void ChangeBackgroundColor(Color c)

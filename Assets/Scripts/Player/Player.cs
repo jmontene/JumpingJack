@@ -45,6 +45,13 @@ public class Player : MonoBehaviour
         set { _dizzyTime = value; }
     }
 
+    private int _lane;
+    public int Lane
+    {
+        get { return _lane; }
+        set { _lane = value; }
+    }
+
     private StateMachine playerStateMachine;
     private float floorDistance = 0.01f;
 
@@ -54,9 +61,9 @@ public class Player : MonoBehaviour
         playerStateMachine = new StateMachine();
         InitializeStates();
         playerStateMachine.Start("Idle");
+        Lane = -1;
     }
 
-    // Update is called once per frame
     void Update()
     {
         playerStateMachine.UpdateMachine();
@@ -95,5 +102,6 @@ public class Player : MonoBehaviour
         playerStateMachine.AddState("Jumping", new PlayerStateJumping(this));
         playerStateMachine.AddState("Falling", new PlayerStateFalling(this));
         playerStateMachine.AddState("Hazard", new PlayerStateHazard(this));
+        playerStateMachine.AddState("GameOver", new PlayerStateGameOver(this));
     }
 }

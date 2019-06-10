@@ -21,6 +21,7 @@ public class PlayerStateFalling : PlayerState
         {
             Player.transform.position = new Vector2(Player.transform.position.x, targetY);
             Player.RefreshDizzyTimer();
+            Player.Lane -= 1;
             ChangeState("Dizzy");
         }
     }
