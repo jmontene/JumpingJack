@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     public LayerMask hazardLayer;
     public float skinHeight = 0.2f;
 
+    [Header("Animations")]
+    public SpriteRenderer spriteRenderer;
+
     private StageManager _stage;
     public StageManager Stage
     {
@@ -52,21 +55,36 @@ public class Player : MonoBehaviour
         set { _lane = value; }
     }
 
-    private StateMachine playerStateMachine;
-    private float floorDistance = 0.01f;
+    private int _direction;
+    public int Direction
+    {
+        get { return _direction; }
+        set { _direction = value; }
+    }
 
-    // Start is called before the first frame update
+    private Animator _animator;
+    public Animator Animator
+    {
+        get { return _animator; }
+    }
+
+    private StateMachine playerStateMachine;
+
     void Awake()
     {
         playerStateMachine = new StateMachine();
         InitializeStates();
         playerStateMachine.Start("Idle");
         Lane = -1;
+        Direction = 1;
+        _animator = spriteRenderer.GetComponent<Animator>();
     }
 
     void Update()
     {
         playerStateMachine.UpdateMachine();
+        if (Direction == 1 && spriteRenderer.flipX) Flip();
+        if (Direction == -1 && !spriteRenderer.flipX) Flip();
     }
 
     public void RefreshDizzyTimer()
@@ -77,7 +95,7 @@ public class Player : MonoBehaviour
 
     public bool CheckFloorHole()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, floorDistance, holeLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, crashHeight, holeLayer);
         return hit;
     }
 
@@ -90,6 +108,11 @@ public class Player : MonoBehaviour
         RaycastHit2D leftHit = Physics2D.Raycast(transform.position + Vector3.up * skinHeight, Vector2.left, center - left, hazardLayer);
 
         return rightHit || leftHit;
+    }
+
+    public void Flip()
+    {
+        spriteRenderer.flipX = !spriteRenderer.flipX;
     }
 
     private void InitializeStates()

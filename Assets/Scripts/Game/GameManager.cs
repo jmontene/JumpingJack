@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public int Lives
     {
         get { return _lives; }
-        private set { _lives = value; }
+        set { _lives = value; }
     }
 
     private int _score = 0;

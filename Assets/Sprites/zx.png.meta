@@ -11,6 +11,36 @@ TextureImporter:
   - first:
       213: -9114567127934762824
     second: zx_hazard_1_1
+  - first:
+      213: 7794942381929403529
+    second: zx_hazard_2_0
+  - first:
+      213: -9194226641907801897
+    second: zx_hazard_2_1
+  - first:
+      213: -1067532964972946673
+    second: zx_hazard_3_0
+  - first:
+      213: 8727883688097322463
+    second: zx_hazard_3_1
+  - first:
+      213: -5778756645522933809
+    second: zx_hazard_4_0
+  - first:
+      213: -2457179832857951796
+    second: zx_hazard_4_1
+  - first:
+      213: 4959610216440676695
+    second: zx_hazard_5_0
+  - first:
+      213: 3874123137413957591
+    second: zx_hazard_5_1
+  - first:
+      213: 2215745761463138581
+    second: player_walk_0
+  - first:
+      213: -5953264668118119474
+    second: player_dizzy_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -162,6 +192,216 @@ TextureImporter:
       bones: []
       spriteID: 291ea3d44f90ece438eb078d8707ac82
       internalID: -9114567127934762824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_2_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 80
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f9aba0ab575ab547a0f35e42f0c328d
+      internalID: 7794942381929403529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_2_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 80
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3622cda7f0f59ba469d3bd3a9e710f5f
+      internalID: -9194226641907801897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_3_0
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 128
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 248c492f7b28eb940843b3e2c025ce91
+      internalID: -1067532964972946673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_3_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86e98b500461dec4c84f0259ff518a5c
+      internalID: 8727883688097322463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_4_0
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 112
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f655121abb75a13489c69c7df89ebdcc
+      internalID: -5778756645522933809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_4_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 112
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5708779c120f6244b547a97d274c178
+      internalID: -2457179832857951796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_5_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b9df4c8207d8b9468600b17a70a61ee
+      internalID: 4959610216440676695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zx_hazard_5_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1717d4ff68d17624c8aa6e431d283d6d
+      internalID: 3874123137413957591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_walk_0
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 128
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7221513024cff98448298cae5f83cfff
+      internalID: 2215745761463138581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_dizzy_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 95
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bd950aa355b053469a64ef93d9346f5
+      internalID: -5953264668118119474
       vertices: []
       indices: 
       edges: []

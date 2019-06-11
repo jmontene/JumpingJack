@@ -10,6 +10,10 @@ public class PlayerStateIdle : PlayerState
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         Player.transform.Translate(Vector2.right * horizontal * Player.speed * Time.deltaTime);
+        if (horizontal > 0 && Player.Direction == -1) Player.Direction = 1;
+        else if (horizontal < 0 && Player.Direction == 1) Player.Direction = -1;
+
+        Player.Animator.SetBool("Walking", horizontal != 0);
 
         float playerX = Player.transform.position.x;
         if(playerX >= Player.Stage.rightSide.position.x || playerX <= Player.Stage.leftSide.position.x)

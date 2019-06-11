@@ -29,6 +29,7 @@ public class PlayerStateCrashing : PlayerState
             {
                 Player.Stage.HurtColor();
                 crashed = true;
+                Player.transform.position = new Vector2(Player.transform.position.x, targetY);
             }
         }
         else

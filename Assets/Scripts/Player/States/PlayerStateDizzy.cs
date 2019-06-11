@@ -8,6 +8,8 @@ public class PlayerStateDizzy : PlayerState
 
     public override void OnEnter()
     {
+        Player.Animator.SetBool("Dizzy", true);
+
         if(Player.Lane == -1)
         {
             Player.Stage.OnLoseLife();
@@ -30,5 +32,10 @@ public class PlayerStateDizzy : PlayerState
         {
             ChangeState("Falling");
         }
+    }
+
+    public override void OnExit()
+    {
+        Player.Animator.SetBool("Dizzy", false);
     }
 }

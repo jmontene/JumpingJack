@@ -76,21 +76,21 @@ public class StageManager : MonoBehaviour
         hazards = new List<Hazard>();
         BuildLaneArray();
         NumOfLanes = lanes.Length;
-
-        for(int i=0;i<InitialHoles;++i) SpawnHoleAtRandom();
         player.Stage = this;
-
-        UpdateLives();
     }
 
     private void Start()
     {
-        foreach(Hazard hazard in GameManager.Instance.CurrentHazards)
+        for (int i = 0; i < InitialHoles; ++i) SpawnHoleAtRandom();
+
+        foreach (Hazard hazard in GameManager.Instance.CurrentHazards)
         {
             SpawnHazard(hazard);
         }
         UpdateScoreText("HI", highScoreText, GameManager.Instance.HighScore);
         UpdateRegularScoreText();
+
+        UpdateLives();
     }
 
     void Update()
@@ -155,7 +155,14 @@ public class StageManager : MonoBehaviour
     public void OnWin()
     {
         UpdateActive = false;
-        StartCoroutine(GoToNextLevel("NextLevel"));
+        if(GameManager.Instance.CurrentLevel == 21)
+        {
+            StartCoroutine(GoToNextLevel("Win"));
+        }
+        else
+        {
+            StartCoroutine(GoToNextLevel("NextLevel"));
+        }
     }
 
     IEnumerator GoToNextLevel(string levelName)
